@@ -24,24 +24,38 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const rows = await readAll();
-  // console.log(req.body);
-  const { title = '', text = '', datetime = '' } = req.body;
 
-  if (title.length === 0 || text.length === 0) {
+  const { title = '' } = req.body;
+  const { text = '' } = req.body;
+  const { datetime = '' } = req.body;
+
+  if (title.length === 0) {
     return res.status(400).json({
       field: 'title',
-      error: 'Title must be a non-empty string', // laga betur
+      error: 'Title must be a string of length 1 to 255 characters',
     });
   }
 
+  if (text.length === null) {
+    return res.status(400).json({
+      field: 'title',
+      error: 'Text must be non-empty string',
+    });
+  }
 
-  const nextId = await rows.map(i => i.id).reduce((a, b) => (a > b ? a : b + 1, 1));
+  if (datetime.length === 0) {
+    return res.status(400).json({
+      field: 'title',
+      error: 'Datetime must be a ISO 8601 date',
+    });
+  }
+  const nextId = await rows.map(i => i.id).reduce((a, b) => (a > b ? a : b + 1), 1);
 
   const item = {
     id: nextId, title, text, datetime,
   };
-  create(item);
 
+  create(item);
   return res.status(201).json(item);
 });
 
