@@ -64,7 +64,7 @@ async function readOne(id) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    const result = await client.query('SELECT id,title, text, datetime FROM notes WHERE id = $1', id);
+    const result = await client.query('SELECT * FROM notes WHERE id = ' + id);
     const { rows } = result;
     return rows;
   } catch (e) {
