@@ -19,9 +19,7 @@ function catchErrors(fn) {
 
 router.get('/', async (req, res) => {
   const rows = await readAll();
-  // res.render('index', { rows });
   res.json(rows);
-  // console.log(rows);
 });
 
 router.post('/', async (req, res) => {
@@ -51,7 +49,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const note = await readOne(id);
-  if (note === undefined || note === null) {
+  if (id === undefined) {
     return res.status(400).json({
       error: 'not found',
     });
