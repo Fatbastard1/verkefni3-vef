@@ -10,9 +10,6 @@ const {
 
 const router = express.Router();
 
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
 
 /* todo útfæra api */
 // const {rows} = "";
@@ -21,6 +18,7 @@ router.get('/', async (req, res) => {
   const rows = await readAll();
   res.json(rows);
 });
+
 
 router.post('/', async (req, res) => {
   const rows = await readAll();
@@ -38,14 +36,14 @@ router.post('/', async (req, res) => {
 
   if (text.length === null) {
     return res.status(400).json({
-      field: 'title',
+      field: 'text',
       error: 'Text must be non-empty string',
     });
   }
 
   if (datetime.length === 0) {
     return res.status(400).json({
-      field: 'title',
+      field: 'datetime',
       error: 'Datetime must be a ISO 8601 date',
     });
   }

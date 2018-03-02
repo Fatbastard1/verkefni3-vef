@@ -47,7 +47,7 @@ async function readAll() {
     console.error('Error selecting data');
     throw err;
   } finally {
-    await client.end();
+    await client.end(); // eslint-disable-line
   }
 }
 
@@ -64,16 +64,14 @@ async function readOne(id) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    const result = await client.query('SELECT id,title, text, datetime FROM notes WHERE id = ' + id);
+    const result = await client.query('SELECT id,title, text, datetime FROM notes WHERE id = $1', id);
     const { rows } = result;
     return rows;
   } catch (e) {
     console.error('Error selecting data');
     throw e;
-    const s = 'query not found';
-    return s;
   } finally {
-    await client.end();
+    await client.end(); // eslint-disable-line
   }
 }
 
@@ -93,16 +91,15 @@ async function update(id, { title, text, datetime } = {}) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    const values = [title, text, datetime];
-    await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = ' + id, values);
+    const values = [title, text, datetime, id];
+    await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = $4', values);
     const item = await readOne(id);
     return item;
   } catch (e) {
     console.error('Error updating data');
     throw e;
-    return "query not found";
   } finally {
-    await client.end();
+    await client.end(); // eslint-disable-line
   }
 }
 
@@ -118,13 +115,13 @@ async function del(id) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    await client.query('DELETE FROM notes WHERE id = ' + id);
+    await client.query('DELETE FROM notes WHERE id = $1', id);
     return 'success';
   } catch (e) {
     console.error('Error deleting data');
     throw e;
   } finally {
-    await client.end();
+    await client.end(); // eslint-disable-line
   }
 }
 
