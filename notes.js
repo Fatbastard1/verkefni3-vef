@@ -124,8 +124,6 @@ async function del(id) {
   } catch (e) {
     console.error('Error deleting data');
     throw e;
-    const s = 'note not found';
-    return s;
   } finally {
     await client.end();
   }

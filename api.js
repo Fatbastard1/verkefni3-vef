@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   // console.log(req.body);
   const { title = '', text = '', datetime = '' } = req.body;
 
-  if (title.length === 0 || text.length === 0 || datetime.length === 0) {
+  if (title.length === 0 || text.length === 0) {
     return res.status(400).json({
       field: 'title',
       error: 'Title must be a non-empty string', // laga betur
