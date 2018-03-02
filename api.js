@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
       error: 'not found',
     });
   }
-  return res.status(201).json(note);
+  res.json(note);
 });
 
 
