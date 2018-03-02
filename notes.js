@@ -16,7 +16,6 @@ const { Client } = require('pg');
 
 async function create({ title, text, datetime } = {}) {
   const client = new Client({ connectionString });
-  // console.info(note.title);
   await client.connect();
   const query = 'INSERT INTO notes(title, text, datetime) VALUES($1, $2, $3)';
   const values = [title, text, datetime];
