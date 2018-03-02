@@ -92,7 +92,7 @@ async function update(id, { title, text, datetime } = {}) {
   await client.connect();
   try {
     const values = [title, text, datetime, id];
-    await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = $4', values);
+    await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = ' + id, values);
     const item = await readOne(id);
     return item;
   } catch (e) {
@@ -115,7 +115,7 @@ async function del(id) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    await client.query('DELETE FROM notes WHERE id = $1', id);
+    await client.query('DELETE FROM notes WHERE id = ' + id);
     return 'success';
   } catch (e) {
     console.error('Error deleting data');
