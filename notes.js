@@ -14,23 +14,21 @@ const { Client } = require('pg');
  * @returns {Promise} Promise representing the object result of creating the note
  */
 
- async function create({ title, text, datetime } = {}) {
-   const client = new Client({ connectionString });
-   //console.info(note.title);
-
-   await client.connect();
-   const query = 'INSERT INTO notes(title, text, datetime) VALUES($1, $2, $3)';
-   const values = [title, text, datetime];
-
-   try {
-     await client.query(query, values);
-   } catch (err) {
-     console.error('Error inserting data');
-     throw err;
-   } finally {
-     await client.end();
-   }
- }
+async function create({ title, text, datetime } = {}) {
+  const client = new Client({ connectionString });
+  // console.info(note.title);
+  await client.connect();
+  const query = 'INSERT INTO notes(title, text, datetime) VALUES($1, $2, $3)';
+  const values = [title, text, datetime];
+  try {
+    await client.query(query, values);
+  } catch (err) {
+    console.error('Error inserting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
 
 /**
  * Read all notes.
@@ -44,7 +42,6 @@ async function readAll() {
 
   try {
     const result = await client.query('SELECT * FROM notes');
-    //console.log(result);
     const { rows } = result;
     return rows;
   } catch (err) {
@@ -74,11 +71,11 @@ async function readOne(id) {
   } catch (e) {
     console.error('Error selecting data');
     throw e;
-    return "query not found";
+    const s = 'query not found';
+    return s;
   } finally {
-      await client.end();
+    await client.end();
   }
-
 }
 
 /**
@@ -97,10 +94,8 @@ async function update(id, { title, text, datetime } = {}) {
   const client = new Client({ connectionString });
   await client.connect();
   try {
-    console.log("im in update");
     const values = [title, text, datetime];
-
-    const result = await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = ' + id , values);
+    await client.query('UPDATE notes SET title = $1, text = $2, datetime = $3 WHERE id = ' + id, values);
     const item = await readOne(id);
     return item;
   } catch (e) {
@@ -108,9 +103,8 @@ async function update(id, { title, text, datetime } = {}) {
     throw e;
     return "query not found";
   } finally {
-      await client.end();
+    await client.end();
   }
-
 }
 
 /**
@@ -130,9 +124,10 @@ async function del(id) {
   } catch (e) {
     console.error('Error deleting data');
     throw e;
-    return "note not found";
+    const s = 'note not found';
+    return s;
   } finally {
-      await client.end();
+    await client.end();
   }
 }
 
