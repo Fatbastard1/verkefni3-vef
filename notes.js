@@ -1,6 +1,6 @@
 /* todo sækja pakka sem vantar  */
 
-const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/notes';
+const connectionString = process.env.DATABASE_URL;
 const { Client } = require('pg');
 
 /**
@@ -16,7 +16,7 @@ const { Client } = require('pg');
 
  async function create({ title, text, datetime } = {}) {
    const client = new Client({ connectionString });
-   // console.info(note.title);
+   //console.info(note.title);
 
    await client.connect();
    const query = 'INSERT INTO notes(title, text, datetime) VALUES($1, $2, $3)';
@@ -30,7 +30,7 @@ const { Client } = require('pg');
    } finally {
      await client.end();
    }
-}
+ }
 
 /**
  * Read all notes.
